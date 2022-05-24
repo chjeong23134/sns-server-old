@@ -15,9 +15,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public ResponseEntity<ResponseDto> userAdd(@RequestBody UserDto.AddReq req) {
         ResponseDto res = userService.addUser(req);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/email-duplicate-check/{email}")
+    public ResponseEntity<ResponseDto> emailDuplicateCheck(@PathVariable String email) {
+        ResponseDto res = userService.findUserEmail(email);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @Table(name="user")
 public class UserEntity extends AutoDate {
     @Id
@@ -21,7 +22,10 @@ public class UserEntity extends AutoDate {
     private String isDeleted;
 
     @Builder
-    public UserEntity(Long id, String email, String password, String name, String isDeleted) {
+    public UserEntity(Long id, String email, String password, String name, String isDeleted,
+                        LocalDateTime createDate, LocalDateTime updateDate) {
+        super(createDate, updateDate);
+
         this.id = id;
         this.email = email;
         this.password = password;

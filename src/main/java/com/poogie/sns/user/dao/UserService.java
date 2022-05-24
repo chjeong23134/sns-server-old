@@ -20,4 +20,14 @@ public class UserService {
 
         return res;
     }
+
+    public ResponseDto findUserEmail(String email) {
+        ResponseDto res = new ResponseDto();
+
+        res.setData(userRepository.findByEmail(email));
+        res.setStatus(ResponseStatusEnum.OK);
+        res.setMessage("성공");
+
+        return res;
+    }
 }
