@@ -5,7 +5,7 @@ import lombok.Getter;
 
 public class UserDto {
     @Getter
-    public static class AddReq {
+    public static class SignUpReq {
         private String email;
         private String password;
         private String name;
@@ -18,5 +18,11 @@ public class UserDto {
                     .isDeleted("N")
                     .build();
         }
+    }
+
+    @Getter
+    public static class SignInReq {
+        private String email;
+        private String password;
     }
 }

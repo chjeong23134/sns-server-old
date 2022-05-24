@@ -11,7 +11,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseDto addUser(UserDto.AddReq req) {
+    public ResponseDto addUser(UserDto.SignUpReq req) {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.save(req.toEntity()));
@@ -25,6 +25,16 @@ public class UserService {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.findByEmail(email));
+        res.setStatus(ResponseStatusEnum.OK);
+        res.setMessage("성공");
+
+        return res;
+    }
+
+    public ResponseDto findUserByEmailAndPassword(UserDto.SignInReq req) {
+        ResponseDto res = new ResponseDto();
+
+        res.setData(userRepository.findByEmailAndPassword(req.getEmail(), req.getPassword()));
         res.setStatus(ResponseStatusEnum.OK);
         res.setMessage("성공");
 
