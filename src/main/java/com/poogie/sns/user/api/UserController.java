@@ -38,7 +38,7 @@ public class UserController {
      */
     @GetMapping("/email-duplicate-check/{email}")
     public ResponseEntity<ResponseDto> emailDuplicateCheck(@PathVariable String email) {
-        ResponseDto res = userService.findUserEmail(email);
+        ResponseDto res = userService.findUserByEmail(email);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
@@ -66,6 +66,17 @@ public class UserController {
             @RequestPart MultipartFile image
     ) throws IOException {
         ResponseDto res = userService.saveUserImage(Long.valueOf(userId), image);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    /*
+        [ 유저 정보 ]
+        - userId (String)
+     */
+    @GetMapping("/detail/{userId}")
+    public ResponseEntity<ResponseDto> detail(@PathVariable Long userId) {
+        ResponseDto res = userService.findUserById(userId);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

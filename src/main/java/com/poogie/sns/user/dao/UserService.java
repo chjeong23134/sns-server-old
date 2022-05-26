@@ -32,7 +32,17 @@ public class UserService {
         return res;
     }
 
-    public ResponseDto findUserEmail(String email) {
+    public ResponseDto findUserById(Long id) {
+        ResponseDto res = new ResponseDto();
+
+        res.setData(userRepository.findById(id));
+        res.setStatus(ResponseStatusEnum.OK);
+        res.setMessage("찾기 성공");
+
+        return res;
+    }
+
+    public ResponseDto findUserByEmail(String email) {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.findByEmail(email));
@@ -66,7 +76,7 @@ public class UserService {
 
         File folder = new File(path);
 
-        if( !folder.exists() ) {
+        if (!folder.exists()) {
             folder.mkdirs();
         }
 
@@ -82,7 +92,7 @@ public class UserService {
 
         // 기존 프로필이 있다면 업데이트
         UserImageEntity userImage = userImageRepository.findByUserId(userId);
-        if(userImage != null) {
+        if (userImage != null) {
             userImage.pathModify(folder.getPath());
 
             res.setData(userImageRepository.save(userImage));
