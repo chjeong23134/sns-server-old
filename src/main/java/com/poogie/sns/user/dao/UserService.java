@@ -6,12 +6,15 @@ import com.poogie.sns.user.domain.UserImageEntity;
 import com.poogie.sns.user.dto.UserDto;
 import com.poogie.sns.user.dto.UserImageDto;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -22,7 +25,7 @@ public class UserService {
     @Autowired
     private UserImageRepository userImageRepository;
 
-    public ResponseDto addUser(UserDto.SignUpReq req) {
+    public ResponseDto add(UserDto.SignUpReq req) {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.save(req.toEntity()));
@@ -32,7 +35,7 @@ public class UserService {
         return res;
     }
 
-    public ResponseDto findUserById(Long id) {
+    public ResponseDto findById(Long id) {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.findById(id));
@@ -42,7 +45,7 @@ public class UserService {
         return res;
     }
 
-    public ResponseDto findUserByEmail(String email) {
+    public ResponseDto findByEmail(String email) {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.findByEmail(email));
@@ -52,7 +55,7 @@ public class UserService {
         return res;
     }
 
-    public ResponseDto findUserByEmailAndPassword(UserDto.SignInReq req) {
+    public ResponseDto findByEmailAndPassword(UserDto.SignInReq req) {
         ResponseDto res = new ResponseDto();
 
         res.setData(userRepository.findByEmailAndPassword(req.getEmail(), req.getPassword()));
@@ -62,7 +65,7 @@ public class UserService {
         return res;
     }
 
-    public ResponseDto saveUserImage(Long userId, MultipartFile image) throws IOException {
+    public ResponseDto saveImage(Long userId, MultipartFile image) throws IOException {
         ResponseDto res = new ResponseDto();
 
         // 파일명 중복방지 date 출력
@@ -113,5 +116,23 @@ public class UserService {
         res.setMessage("생성 성공");
 
         return res;
+    }
+
+    public byte[] findImageByUserId(Long userId) throws IOException {
+        UserImageEntity userImage = userImageRepository.findByUserId(userId);
+
+        if(userImage == null) {
+            InputStream imageStream = new FileInputStream("/Users/jeongchanhee/Desktop/sns-server/images/default_image.jpeg");
+            byte[] image = IOUtils.toByteArray(imageStream);
+            imageStream.close();
+
+            return image;
+        }
+
+        InputStream imageStream = new FileInputStream(userImage.getPath());
+        byte[] image = IOUtils.toByteArray(imageStream);
+        imageStream.close();
+
+        return image;
     }
 }
