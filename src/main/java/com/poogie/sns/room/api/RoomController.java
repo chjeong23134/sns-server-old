@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/room")
@@ -29,6 +30,13 @@ public class RoomController {
     @PostMapping("/invite")
     public ResponseEntity<ResponseDto> invite(@RequestBody RoomParticipantDto.InviteReq req) {
         ResponseDto res = roomParticipantService.add(req);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<ResponseDto> list(@PathVariable Long userId) {
+        ResponseDto res = roomService.findByUserId(userId);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

@@ -40,7 +40,7 @@ public class UserService {
 
         res.setData(userRepository.findById(id));
         res.setStatus(ResponseStatusEnum.OK);
-        res.setMessage("찾기 성공");
+        res.setMessage("조회 성공");
 
         return res;
     }
@@ -50,7 +50,7 @@ public class UserService {
 
         res.setData(userRepository.findByEmail(email));
         res.setStatus(ResponseStatusEnum.OK);
-        res.setMessage("찾기 성공");
+        res.setMessage("조회 성공");
 
         return res;
     }
@@ -60,7 +60,7 @@ public class UserService {
 
         res.setData(userRepository.findByEmailAndPassword(req.getEmail(), req.getPassword()));
         res.setStatus(ResponseStatusEnum.OK);
-        res.setMessage("찾기 성공");
+        res.setMessage("조회 성공");
 
         return res;
     }
@@ -122,7 +122,7 @@ public class UserService {
         UserImageEntity userImage = userImageRepository.findByUserId(userId);
 
         if(userImage == null) {
-            InputStream imageStream = new FileInputStream("/Users/jeongchanhee/Desktop/sns-server/images/default_image.jpeg");
+            InputStream imageStream = new FileInputStream("/Users/jeongchanhee/Desktop/sns-server/images/default_user_image.jpeg");
             byte[] image = IOUtils.toByteArray(imageStream);
             imageStream.close();
 

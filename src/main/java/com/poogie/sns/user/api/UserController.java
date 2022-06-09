@@ -36,8 +36,8 @@ public class UserController {
         [ 이메일 중복체크 ]
         - email (String)
      */
-    @GetMapping("/email-duplicate-check/{email}")
-    public ResponseEntity<ResponseDto> emailDuplicateCheck(@PathVariable String email) {
+    @GetMapping("/email-check/{email}")
+    public ResponseEntity<ResponseDto> emailCheck(@PathVariable String email) {
         ResponseDto res = userService.findByEmail(email);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
