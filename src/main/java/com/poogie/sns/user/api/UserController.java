@@ -1,6 +1,7 @@
 package com.poogie.sns.user.api;
 
 import com.poogie.sns.common.response.ResponseDto;
+import com.poogie.sns.user.dao.UserImageService;
 import com.poogie.sns.user.dao.UserService;
 import com.poogie.sns.user.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.io.IOException;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserImageService userImageService;
 
     /*
         [ 회원가입 ]
@@ -65,7 +68,7 @@ public class UserController {
             @RequestPart String userId,
             @RequestPart MultipartFile image
     ) throws IOException {
-        ResponseDto res = userService.saveImage(Long.valueOf(userId), image);
+        ResponseDto res = userImageService.save(Long.valueOf(userId), image);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
@@ -90,6 +93,6 @@ public class UserController {
             produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE}
     )
     public ResponseEntity<byte[]> imageDetail(@PathVariable Long userId) throws IOException {
-        return new ResponseEntity<>(userService.findImageByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userImageService.findByUserId(userId), HttpStatus.OK);
     }
 }
