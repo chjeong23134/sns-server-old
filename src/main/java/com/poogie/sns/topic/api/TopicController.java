@@ -17,11 +17,21 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
+    /*
+        [ 토픽작성 ]
+        - topicId (Long)
+        - createUserId (Long)
+        - content (String)
+     */
     @PostMapping("/write")
     public ResponseEntity<TopicEntity> write(@RequestBody TopicDto.WriteReq req) {
         return new ResponseEntity<>(topicService.add(req), HttpStatus.OK);
     }
 
+    /*
+        [ 토픽리스트 ]
+        - roomId (Long)
+     */
     @GetMapping("/list/{roomId}")
     public ResponseEntity<List<TopicEntity>> list(@PathVariable Long roomId) {
         return new ResponseEntity<>(topicService.findByRoomId(roomId), HttpStatus.OK);

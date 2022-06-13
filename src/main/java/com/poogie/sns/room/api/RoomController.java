@@ -27,21 +27,39 @@ public class RoomController {
     @Autowired
     private RoomParticipantService roomParticipantService;
 
+    /*
+        [ 룸생성 ]
+        - createUserId (Long)
+        - name (String)
+     */
     @PostMapping("/create")
     public ResponseEntity<RoomEntity> create(@RequestBody RoomDto.CreateReq req) {
         return new ResponseEntity<>(roomService.add(req), HttpStatus.OK);
     }
 
+    /*
+        [ 룸초대 ]
+        - roomId (Long)
+        - userId (Long)
+     */
     @PostMapping("/invite")
     public ResponseEntity<RoomParticipantEntity> invite(@RequestBody RoomParticipantDto.InviteReq req) {
         return new ResponseEntity<>(roomParticipantService.add(req), HttpStatus.OK);
     }
 
+    /*
+        [ 룸리스트 ]
+        - userId (Long)
+     */
     @GetMapping("/list/{userId}")
     public ResponseEntity<List<RoomEntity>> list(@PathVariable Long userId) {
         return new ResponseEntity<>(roomService.findByUserId(userId), HttpStatus.OK);
     }
 
+    /*
+        [ 룸이미지 ]
+        - roomId (Long)
+     */
     @GetMapping(
             value = "/image/{roomId}",
             produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE}
