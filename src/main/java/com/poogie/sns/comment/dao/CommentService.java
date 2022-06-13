@@ -19,4 +19,8 @@ public class CommentService {
     public List<CommentEntity> findByTopicId(Long topicId) {
         return commentRepository.findByTopicId(topicId);
     }
+
+    public CommentEntity findTop1ByTopicIdOrderByCreateDateDesc(Long topicId) {
+        return commentRepository.findTop1ByTopicIdOrderByCreateDateDesc(topicId);
+    }
 }

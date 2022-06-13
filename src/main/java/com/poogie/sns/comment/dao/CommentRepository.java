@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CommentRepository extends CrudRepository<CommentEntity, Long> {
     List<CommentEntity> findByTopicId(Long topicId);
+    CommentEntity findTop1ByTopicIdOrderByCreateDateDesc(Long topicId);
 }
