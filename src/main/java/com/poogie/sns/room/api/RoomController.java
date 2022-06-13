@@ -1,9 +1,10 @@
 package com.poogie.sns.room.api;
 
-import com.poogie.sns.common.response.ResponseDto;
 import com.poogie.sns.room.dao.RoomImageService;
 import com.poogie.sns.room.dao.RoomParticipantService;
 import com.poogie.sns.room.dao.RoomService;
+import com.poogie.sns.room.domain.RoomEntity;
+import com.poogie.sns.room.domain.RoomParticipantEntity;
 import com.poogie.sns.room.dto.RoomDto;
 import com.poogie.sns.room.dto.RoomParticipantDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/room")
@@ -26,24 +28,18 @@ public class RoomController {
     private RoomParticipantService roomParticipantService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> create(@RequestBody RoomDto.CreateReq req) {
-        ResponseDto res = roomService.add(req);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<RoomEntity> create(@RequestBody RoomDto.CreateReq req) {
+        return new ResponseEntity<>(roomService.add(req), HttpStatus.OK);
     }
 
     @PostMapping("/invite")
-    public ResponseEntity<ResponseDto> invite(@RequestBody RoomParticipantDto.InviteReq req) {
-        ResponseDto res = roomParticipantService.add(req);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<RoomParticipantEntity> invite(@RequestBody RoomParticipantDto.InviteReq req) {
+        return new ResponseEntity<>(roomParticipantService.add(req), HttpStatus.OK);
     }
 
     @GetMapping("/list/{userId}")
-    public ResponseEntity<ResponseDto> list(@PathVariable Long userId) {
-        ResponseDto res = roomService.findByUserId(userId);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<List<RoomEntity>> list(@PathVariable Long userId) {
+        return new ResponseEntity<>(roomService.findByUserId(userId), HttpStatus.OK);
     }
 
     @GetMapping(

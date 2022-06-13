@@ -1,8 +1,9 @@
 package com.poogie.sns.user.api;
 
-import com.poogie.sns.common.response.ResponseDto;
 import com.poogie.sns.user.dao.UserImageService;
 import com.poogie.sns.user.dao.UserService;
+import com.poogie.sns.user.domain.UserEntity;
+import com.poogie.sns.user.domain.UserImageEntity;
 import com.poogie.sns.user.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,10 +30,8 @@ public class UserController {
         - name (String)
      */
     @PostMapping("/sign-up")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody UserDto.SignUpReq req) {
-        ResponseDto res = userService.add(req);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<UserEntity> signUp(@RequestBody UserDto.SignUpReq req) {
+        return new ResponseEntity<>(userService.add(req), HttpStatus.OK);
     }
 
     /*
@@ -40,10 +39,8 @@ public class UserController {
         - email (String)
      */
     @GetMapping("/email-check/{email}")
-    public ResponseEntity<ResponseDto> emailCheck(@PathVariable String email) {
-        ResponseDto res = userService.findByEmail(email);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<UserEntity> emailCheck(@PathVariable String email) {
+        return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
     }
 
     /*
@@ -52,10 +49,8 @@ public class UserController {
         - password (String)
      */
     @PostMapping("/sign-in")
-    public ResponseEntity<ResponseDto> signIn(@RequestBody UserDto.SignInReq req) {
-        ResponseDto res = userService.findByEmailAndPassword(req);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<UserEntity> signIn(@RequestBody UserDto.SignInReq req) {
+        return new ResponseEntity<>(userService.findByEmailAndPassword(req), HttpStatus.OK);
     }
 
     /*
@@ -64,13 +59,11 @@ public class UserController {
         - image (MultipartFile)
      */
     @PostMapping("/profile")
-    public ResponseEntity<ResponseDto> profile(
+    public ResponseEntity<UserImageEntity> profile(
             @RequestPart String userId,
             @RequestPart MultipartFile image
     ) throws IOException {
-        ResponseDto res = userImageService.save(Long.valueOf(userId), image);
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return new ResponseEntity<>(userImageService.save(Long.valueOf(userId), image), HttpStatus.OK);
     }
 
     /*
@@ -78,10 +71,9 @@ public class UserController {
         - userId (Long)
      */
     @GetMapping("/detail/{userId}")
-    public ResponseEntity<ResponseDto> detail(@PathVariable Long userId) {
-        ResponseDto res = userService.findById(userId);
+    public ResponseEntity<UserEntity> detail(@PathVariable Long userId) {
 
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);
     }
 
     /*

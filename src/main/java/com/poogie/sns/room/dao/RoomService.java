@@ -1,7 +1,5 @@
 package com.poogie.sns.room.dao;
 
-import com.poogie.sns.common.response.ResponseDto;
-import com.poogie.sns.common.response.ResponseStatusEnum;
 import com.poogie.sns.room.domain.RoomEntity;
 import com.poogie.sns.room.domain.RoomParticipantEntity;
 import com.poogie.sns.room.dto.RoomDto;
@@ -20,8 +18,7 @@ public class RoomService {
     @Autowired
     private RoomParticipantRepository roomParticipantRepository;
 
-    public ResponseDto add(RoomDto.CreateReq req) {
-        ResponseDto res = new ResponseDto();
+    public RoomEntity add(RoomDto.CreateReq req) {
         RoomEntity roomEntity = roomRepository.save(req.toEntity());
         roomParticipantRepository.save(
                 RoomParticipantEntity.builder()
@@ -30,16 +27,10 @@ public class RoomService {
                         .userClass(0)
                         .build()
         );
-
-        res.setData(roomEntity);
-        res.setStatus(ResponseStatusEnum.OK);
-        res.setMessage("생성 성공");
-
-        return res;
+        return roomEntity;
     }
 
-    public ResponseDto findByUserId(Long userId) {
-        ResponseDto res = new ResponseDto();
+    public List<RoomEntity> findByUserId(Long userId) {
         List<RoomParticipantEntity> roomParticipantEntitys = roomParticipantRepository.findByUserId(userId);
         List<RoomEntity> roomEntitys = new ArrayList<>();
 
@@ -48,10 +39,6 @@ public class RoomService {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "RoomEntity 조회 실패")));
         }
 
-        res.setData(roomEntitys);
-        res.setStatus(ResponseStatusEnum.OK);
-        res.setMessage("조회 성공");
-
-        return res;
+        return roomEntitys;
     }
 }

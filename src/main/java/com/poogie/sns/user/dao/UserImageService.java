@@ -1,7 +1,5 @@
 package com.poogie.sns.user.dao;
 
-import com.poogie.sns.common.response.ResponseDto;
-import com.poogie.sns.common.response.ResponseStatusEnum;
 import com.poogie.sns.user.domain.UserImageEntity;
 import com.poogie.sns.user.dto.UserImageDto;
 import org.apache.commons.io.FilenameUtils;
@@ -22,9 +20,7 @@ public class UserImageService {
     @Autowired
     private UserImageRepository userImageRepository;
 
-    public ResponseDto save(Long userId, MultipartFile image) throws IOException {
-        ResponseDto res = new ResponseDto();
-
+    public UserImageEntity save(Long userId, MultipartFile image) throws IOException {
         // 파일명 중복방지 date 출력
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -55,11 +51,7 @@ public class UserImageService {
         if (userImage != null) {
             userImage.pathModify(folder.getPath());
 
-            res.setData(userImageRepository.save(userImage));
-            res.setStatus(ResponseStatusEnum.OK);
-            res.setMessage("수정 성공");
-
-            return res;
+            return userImageRepository.save(userImage);
         }
 
         // 기존 프로필이 없다면 생성
@@ -68,11 +60,7 @@ public class UserImageService {
                 .path(folder.getPath())
                 .build();
 
-        res.setData(userImageRepository.save(imageDto.toEntity()));
-        res.setStatus(ResponseStatusEnum.OK);
-        res.setMessage("생성 성공");
-
-        return res;
+        return userImageRepository.save(imageDto.toEntity());
     }
 
     public byte[] findByUserId(Long userId) throws IOException {
