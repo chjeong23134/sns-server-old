@@ -19,10 +19,11 @@ public class UserEntity extends AutoDate {
     private String email;
     private String password;
     private String name;
+    private String role;
     private String isDeleted;
 
     @Builder
-    public UserEntity(Long id, String email, String password, String name, String isDeleted,
+    public UserEntity(Long id, String email, String password, String name, String role, String isDeleted,
                         LocalDateTime createDate, LocalDateTime updateDate) {
         super(createDate, updateDate);
 
@@ -30,6 +31,7 @@ public class UserEntity extends AutoDate {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.role = role;
         this.isDeleted = isDeleted;
     }
 }

@@ -5,6 +5,7 @@ import com.poogie.sns.user.dao.UserService;
 import com.poogie.sns.user.domain.UserEntity;
 import com.poogie.sns.user.domain.UserImageEntity;
 import com.poogie.sns.user.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class UserController {
     @Autowired
     private UserService userService;
@@ -29,7 +31,7 @@ public class UserController {
         - password (String)
         - name (String)
      */
-    @PostMapping("/sign-up")
+    @PostMapping("/auth/sign-up")
     public ResponseEntity<UserEntity> signUp(@RequestBody UserDto.SignUpReq req) {
         return new ResponseEntity<>(userService.add(req), HttpStatus.OK);
     }
@@ -38,7 +40,7 @@ public class UserController {
         [ 이메일 중복체크 ]
         - email (String)
      */
-    @GetMapping("/email-check/{email}")
+    @GetMapping("/auth/email-check/{email}")
     public ResponseEntity<UserEntity> emailCheck(@PathVariable String email) {
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
     }
@@ -48,10 +50,10 @@ public class UserController {
         - email (String)
         - password (String)
      */
-    @PostMapping("/sign-in")
-    public ResponseEntity<UserEntity> signIn(@RequestBody UserDto.SignInReq req) {
-        return new ResponseEntity<>(userService.findByEmailAndPassword(req), HttpStatus.OK);
-    }
+//    @PostMapping("/auth/sign-in")
+//    public ResponseEntity<JwtDto> signIn(@RequestBody UserDto.SignInReq req) {
+//        return new ResponseEntity<>(authService.signIn(req), HttpStatus.OK);
+//    }
 
     /*
         [ 프로필 이미지 생성 또는 업데이트 ]
@@ -72,7 +74,6 @@ public class UserController {
      */
     @GetMapping("/detail/{userId}")
     public ResponseEntity<UserEntity> detail(@PathVariable Long userId) {
-
         return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);
     }
 

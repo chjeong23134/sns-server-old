@@ -37,6 +37,10 @@ public class CommentController {
         return new ResponseEntity<>(commentService.findByTopicId(topicId), HttpStatus.OK);
     }
 
+    /*
+        [ 최근 댓글 ]
+        - topicId (Long)
+     */
     @GetMapping("/last-comment/{topicId}")
     public ResponseEntity<CommentEntity> lastComment(@PathVariable Long topicId) {
         return new ResponseEntity<>(commentService.findTop1ByTopicIdOrderByCreateDateDesc(topicId), HttpStatus.OK);

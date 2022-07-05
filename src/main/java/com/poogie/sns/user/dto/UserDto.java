@@ -15,6 +15,7 @@ public class UserDto {
                     .email(this.email)
                     .password(this.password)
                     .name(this.name)
+                    .role("ROLE_USER")
                     .isDeleted("N")
                     .build();
         }
@@ -24,5 +25,9 @@ public class UserDto {
     public static class SignInReq {
         private String email;
         private String password;
+
+//        public UsernamePasswordAuthenticationToken toAuthentication() {
+//            return new UsernamePasswordAuthenticationToken(this.email, this.password);
+//        }
     }
 }
